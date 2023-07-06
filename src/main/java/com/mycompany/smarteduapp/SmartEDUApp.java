@@ -7,6 +7,6 @@ package com.mycompany.smarteduapp;
 public class SmartEDUApp {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        new MainScreen().setVisible(true);
     }
 }

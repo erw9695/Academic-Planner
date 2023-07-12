@@ -10,6 +10,7 @@ import javax.swing.JFrame;
  * @author ethan
  */
 public class MainScreen extends javax.swing.JFrame {
+    GraphicsPanel gPanMon,gPanTue,gPanWed,gPanThu,gPanFri,gPanSat,gPanSun;
 
     /**
      * Creates new form MainScreen
@@ -17,6 +18,23 @@ public class MainScreen extends javax.swing.JFrame {
     public MainScreen() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        // Create and add graphics panels.
+        gPanMon = new GraphicsPanel();
+        gPanTue = new GraphicsPanel();
+        gPanWed = new GraphicsPanel();
+        gPanThu = new GraphicsPanel();
+        gPanFri = new GraphicsPanel();
+        gPanSat = new GraphicsPanel();
+        gPanSun = new GraphicsPanel();
+        
+        monPan.add(gPanMon);
+        tuePan.add(gPanTue);
+        wedPan.add(gPanWed);
+        thuPan.add(gPanThu);
+        friPan.add(gPanFri);
+        satPan.add(gPanSat);
+        sunPan.add(gPanSun);
     }
 
     /**
@@ -34,6 +52,16 @@ public class MainScreen extends javax.swing.JFrame {
         scheduleButton = new javax.swing.JButton();
         assignmentButton = new javax.swing.JButton();
         fileButton = new javax.swing.JButton();
+        schedBack = new javax.swing.JPanel();
+        tuePan = new javax.swing.JPanel();
+        wedPan = new javax.swing.JPanel();
+        thuPan = new javax.swing.JPanel();
+        satPan = new javax.swing.JPanel();
+        friPan = new javax.swing.JPanel();
+        sunPan = new javax.swing.JPanel();
+        monPan = new javax.swing.JPanel();
+        addCourseButton = new javax.swing.JButton();
+        deleteCourseButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,8 +133,137 @@ public class MainScreen extends javax.swing.JFrame {
                 .addComponent(assignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(303, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
+
+        schedBack.setBackground(new java.awt.Color(102, 0, 51));
+
+        javax.swing.GroupLayout tuePanLayout = new javax.swing.GroupLayout(tuePan);
+        tuePan.setLayout(tuePanLayout);
+        tuePanLayout.setHorizontalGroup(
+            tuePanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
+        tuePanLayout.setVerticalGroup(
+            tuePanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 433, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout wedPanLayout = new javax.swing.GroupLayout(wedPan);
+        wedPan.setLayout(wedPanLayout);
+        wedPanLayout.setHorizontalGroup(
+            wedPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
+        wedPanLayout.setVerticalGroup(
+            wedPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout thuPanLayout = new javax.swing.GroupLayout(thuPan);
+        thuPan.setLayout(thuPanLayout);
+        thuPanLayout.setHorizontalGroup(
+            thuPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
+        thuPanLayout.setVerticalGroup(
+            thuPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 433, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout satPanLayout = new javax.swing.GroupLayout(satPan);
+        satPan.setLayout(satPanLayout);
+        satPanLayout.setHorizontalGroup(
+            satPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
+        satPanLayout.setVerticalGroup(
+            satPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 433, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout friPanLayout = new javax.swing.GroupLayout(friPan);
+        friPan.setLayout(friPanLayout);
+        friPanLayout.setHorizontalGroup(
+            friPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
+        friPanLayout.setVerticalGroup(
+            friPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 433, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout sunPanLayout = new javax.swing.GroupLayout(sunPan);
+        sunPan.setLayout(sunPanLayout);
+        sunPanLayout.setHorizontalGroup(
+            sunPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
+        sunPanLayout.setVerticalGroup(
+            sunPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 433, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout monPanLayout = new javax.swing.GroupLayout(monPan);
+        monPan.setLayout(monPanLayout);
+        monPanLayout.setHorizontalGroup(
+            monPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 130, Short.MAX_VALUE)
+        );
+        monPanLayout.setVerticalGroup(
+            monPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout schedBackLayout = new javax.swing.GroupLayout(schedBack);
+        schedBack.setLayout(schedBackLayout);
+        schedBackLayout.setHorizontalGroup(
+            schedBackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(schedBackLayout.createSequentialGroup()
+                .addComponent(monPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tuePan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(wedPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(thuPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(friPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(satPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sunPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        schedBackLayout.setVerticalGroup(
+            schedBackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(sunPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(satPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(friPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(thuPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(wedPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(tuePan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(monPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        addCourseButton.setBackground(new java.awt.Color(34, 116, 165));
+        addCourseButton.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 0, 18)); // NOI18N
+        addCourseButton.setForeground(new java.awt.Color(255, 255, 255));
+        addCourseButton.setText("Add Course");
+        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseButtonActionPerformed(evt);
+            }
+        });
+
+        deleteCourseButton.setBackground(new java.awt.Color(34, 116, 165));
+        deleteCourseButton.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 0, 18)); // NOI18N
+        deleteCourseButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteCourseButton.setText("Delete Course");
+        deleteCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCourseButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,11 +271,28 @@ public class MainScreen extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1056, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(schedBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(346, 346, 346))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(schedBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteCourseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,6 +320,14 @@ public class MainScreen extends javax.swing.JFrame {
     private void fileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_fileButtonActionPerformed
+
+    private void addCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseButtonActionPerformed
+        new AddClassScreen().setVisible(true);
+    }//GEN-LAST:event_addCourseButtonActionPerformed
+
+    private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
+        new DeleteClassScreen().setVisible(true);
+    }//GEN-LAST:event_deleteCourseButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,11 +365,21 @@ public class MainScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addCourseButton;
     private javax.swing.JButton assignmentButton;
+    private javax.swing.JButton deleteCourseButton;
     private javax.swing.JButton fileButton;
+    private javax.swing.JPanel friPan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel monPan;
+    private javax.swing.JPanel satPan;
+    private javax.swing.JPanel schedBack;
     private javax.swing.JButton scheduleButton;
+    private javax.swing.JPanel sunPan;
+    private javax.swing.JPanel thuPan;
+    private javax.swing.JPanel tuePan;
+    private javax.swing.JPanel wedPan;
     // End of variables declaration//GEN-END:variables
 }

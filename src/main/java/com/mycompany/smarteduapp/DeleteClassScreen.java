@@ -4,6 +4,10 @@
  */
 package com.mycompany.smarteduapp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 /**
  *
  * @author ethan
@@ -124,6 +128,90 @@ public class DeleteClassScreen extends javax.swing.JFrame {
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         this.setVisible(false);
+        
+        String courseToDelete = courseTitleField.getText();
+        
+        if (SmartEDUApp.main.gPanMon.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanMon.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanMon.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanMon.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanMon.repaint();
+        }
+        if (SmartEDUApp.main.gPanTue.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanTue.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanTue.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanTue.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanTue.repaint();
+        }
+        if (SmartEDUApp.main.gPanWed.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanWed.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanWed.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanWed.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanWed.repaint();
+        }
+        if (SmartEDUApp.main.gPanThu.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanThu.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanThu.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanThu.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanThu.repaint();
+        }
+        if (SmartEDUApp.main.gPanFri.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanFri.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanFri.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanFri.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanFri.repaint();
+        }
+        if (SmartEDUApp.main.gPanSat.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanSat.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanSat.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanSat.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanSat.repaint();
+        }
+        if (SmartEDUApp.main.gPanSun.courses.contains(courseToDelete)) {
+            for (int i = 0; i < SmartEDUApp.main.gPanSun.blocks.size() ; i++) {
+                CourseBlock curr = SmartEDUApp.main.gPanSun.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    SmartEDUApp.main.gPanSun.blocks.remove(i);
+                }
+            }
+            SmartEDUApp.main.gPanSun.repaint();
+        }
+        
+        // Delete from DB.
+        Connection conn = null;
+        Statement state = null;
+        try {
+            String url = "jdbc:mariadb://localhost:3307/academicdb";
+            conn = DriverManager.getConnection(url,"root","");
+            
+            String deleteQuery = "delete from schedule where courseTitle = '"+courseToDelete+"'";
+                    
+            state = conn.createStatement();
+            state.executeQuery(deleteQuery);
+        } catch (Exception e) {
+            
+        } finally {
+            if (state != null) try { state.close(); } catch (Exception e2) {}
+            if (conn != null) try { conn.close(); } catch (Exception e3) {}
+        }
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

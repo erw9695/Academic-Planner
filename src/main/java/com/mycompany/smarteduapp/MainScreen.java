@@ -314,7 +314,8 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
     private void assignmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignmentButtonActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        SmartEDUApp.assign.setVisible(true);
     }//GEN-LAST:event_assignmentButtonActionPerformed
 
     private void fileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonActionPerformed

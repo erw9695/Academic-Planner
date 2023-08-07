@@ -12,10 +12,13 @@ import java.sql.ResultSet;
  */
 public class SmartEDUApp {
     static MainScreen main;
+    static AssignmentScreen assign;
     
     public static void main(String[] args) {
         main = new MainScreen();
         main.setVisible(true);
+        
+        assign = new AssignmentScreen();
         
         // Load from DB.
         Connection conn = null;

@@ -1,6 +1,7 @@
 package com.mycompany.smarteduapp;
 
 import java.awt.Color;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -15,6 +16,19 @@ public class SmartEDUApp {
     static AssignmentScreen assign;
     
     public static void main(String[] args) {
+        
+        // Create local directory if needed.
+        File file = new File(".\\smartEDUFiles");
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                System.out.println("Main directory created.");
+            } else {
+                System.out.println("Main directory creation failure.");
+            }
+        } else {
+            System.out.println("Main directory ALREADY exists.");
+        }
+        
         main = new MainScreen();
         main.setVisible(true);
         
@@ -81,7 +95,7 @@ public class SmartEDUApp {
                 }
             }
         } catch (Exception e) {
-            
+            System.out.println(e.toString());
         } finally {
             if (rs != null) try { rs.close(); } catch (Exception e2) {}
             if (state != null) try { state.close(); } catch (Exception e3) {}

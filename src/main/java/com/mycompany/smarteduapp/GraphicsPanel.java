@@ -17,6 +17,7 @@ public class GraphicsPanel extends JPanel {
         courses = new HashSet();
     }
     
+    // Identify if a time conflict exists.
     public boolean conflictExists(CourseBlock newBlock) {
         double startTime = newBlock.startDigit;
         double endTime = newBlock.endDigit;
@@ -32,6 +33,7 @@ public class GraphicsPanel extends JPanel {
         return false;
     }
     
+    // Add a new course to the panel.
     public void addCourse(CourseBlock course, String courseTitle) {
         blocks.add(course);
         courses.add(courseTitle);

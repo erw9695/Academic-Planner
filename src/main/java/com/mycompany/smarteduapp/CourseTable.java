@@ -1,33 +1,103 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.mycompany.smarteduapp;
 
 import java.awt.Color;
 import javax.swing.table.*;
 import java.awt.*;
-import java.applet.Applet;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.*;
 
 /**
  *
  * @author ethan
  */
 public class CourseTable extends javax.swing.JPanel {
+    AddAssignScreen newAssign;
+    private final String courseName;
+    private final DefaultTableModel model;
+    private final DetailsScreen detail;
 
     /**
      * Creates new form CourseTable
      */
-    public CourseTable(String courseName, Color courseColor) {
+    public CourseTable(String courseTitle, Color courseColor) {
         initComponents();
         
-        titleLabel.setText(courseName);
-        titleLabel.setBackground(courseColor);
+        titleLabel.setText(courseTitle);
+        titleLabel.setBackground(courseColor);        
         
+        newAssign = new AddAssignScreen();
+        detail = new DetailsScreen();
+        courseName = courseTitle;
+        model = (DefaultTableModel) assignTable.getModel();
+        
+        // Load from DB.
+        this.loadCourseTable();
     }
+    
+    // Load all assignments associated with this course.
+    public final void loadCourseTable() {
+        // SQL Declarations
+        Connection conn = null;
+        Statement findAssignState = null;
+        ResultSet rs = null;
+       
+        try {
+            // Connect to user database.
+            String url = "jdbc:mariadb://localhost:3307/academicdb";
+            conn = DriverManager.getConnection(url,"root","");
 
+            // Query to get all locally saved drawings.
+            String findAssign = "select * from assignments where course = '"+courseName+"'";
+
+            findAssignState = conn.createStatement();
+
+            rs = findAssignState.executeQuery(findAssign);
+            
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                String title,dateTime,status;
+                int delay;
+                
+                title = rs.getString("title");
+                dateTime = rs.getString("dateTime");
+                status = rs.getString("status");
+                delay = rs.getInt("delay");
+
+                // Calculate the time to the future date.
+                DateTimeFormatter form = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm");
+                LocalDateTime dateTimeObj = LocalDateTime.parse(dateTime,form);
+                Duration timeUntil = Duration.between(LocalDateTime.now(),dateTimeObj);
+
+                // Time remaining calculations.
+                long daysLeft = timeUntil.toDays()+delay;
+                long hoursLeft = timeUntil.toHours()+(delay*24);
+                
+                model.addRow(new Object[]{title,dateTime,daysLeft,hoursLeft,status});
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            // Close SQL connection.
+            if (rs != null) try { rs.close(); } catch (Exception e2) {}
+            if (findAssignState != null) try { findAssignState.close(); } catch (Exception e3) {}
+            if (conn != null) try { conn.close(); } catch (Exception e4) {}
+        }
+    }
+    
     public javax.swing.JTable getTable() {
         return assignTable;
+    }
+    
+    public String getCourseName() {
+        return courseName;
     }
     
     /**
@@ -43,9 +113,11 @@ public class CourseTable extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         assignTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        detailsButton = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
+        openDirectoryButton = new javax.swing.JButton();
 
         titleLabel.setBackground(new java.awt.Color(0, 0, 0));
         titleLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -74,11 +146,40 @@ public class CourseTable extends javax.swing.JPanel {
 
         jScrollPane2.setViewportView(jScrollPane1);
 
-        jButton1.setText("Add");
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Delete");
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Details");
+        detailsButton.setText("Details");
+        detailsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                detailsButtonActionPerformed(evt);
+            }
+        });
+
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
+        openDirectoryButton.setText("File");
+        openDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openDirectoryButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -88,11 +189,15 @@ public class CourseTable extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(addButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(deleteButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(detailsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(refreshButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(openDirectoryButton)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -100,23 +205,171 @@ public class CourseTable extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(addButton)
+                    .addComponent(deleteButton)
+                    .addComponent(detailsButton)
+                    .addComponent(refreshButton)
+                    .addComponent(openDirectoryButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    // Add button pressed.
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        if (newAssign.myTable == null) {
+            newAssign.myTable = this;
+        }
+        // Open add assignment window.
+        newAssign.setVisible(true);
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    // Delete button pressed.
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        int row = assignTable.getSelectedRow();
+        
+        // Get the assignment associated with the selected row.
+        String assignName,assignDate;
+        assignName = model.getValueAt(row, 0).toString();
+        assignDate = model.getValueAt(row, 1).toString();
+        
+        // Delete the assignment of the selected row from the DB.
+        Connection conn = null;
+        Statement state = null;
+        try {
+            String url = "jdbc:mariadb://localhost:3307/academicdb";
+            conn = DriverManager.getConnection(url,"root","");
+
+            String deleteQuery = "delete from assignments where course='"+courseName+"' and title='"+assignName+"' and dateTime='"+assignDate+"'";
+
+            state = conn.createStatement();
+            state.executeQuery(deleteQuery);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            if (state != null) try { state.close(); } catch (Exception e2) {}
+            if (conn != null) try { conn.close(); } catch (Exception e3) {}
+        }
+        
+        // If a row is selected, delete it.
+        if (assignTable.getSelectedRow() != -1) {
+            model.removeRow(assignTable.getSelectedRow());
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    // Details button pressed.
+    private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
+        // TODO add your handling code here:
+        int row = assignTable.getSelectedRow();
+        
+        String assignName,assignDate;
+        assignName = model.getValueAt(row, 0).toString();
+        assignDate = model.getValueAt(row, 1).toString();
+        
+        // Get saved status and delay.
+        Connection conn = null;
+        Statement selectQueryState = null;
+        ResultSet rs = null;
+        
+        String course = null;
+        String title = null;
+        String dateTime = null;
+        String status = null;
+        int delay = 0;
+       
+        try {
+            // Connect to user database.
+            String url = "jdbc:mariadb://localhost:3307/academicdb";
+            conn = DriverManager.getConnection(url,"root","");
+
+            // Get the assignment's details.
+            String selectQuery = "select * from assignments where course='"+courseName+"' and title='"+assignName+"' and dateTime='"+assignDate+"'";
+
+            selectQueryState = conn.createStatement();
+            rs = selectQueryState.executeQuery(selectQuery);
+            
+            if (rs.next()) {
+                course = rs.getString("course");
+                title = rs.getString("title");
+                dateTime = rs.getString("dateTime");
+                status = rs.getString("status");
+                delay = rs.getInt("delay");
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            // Close SQL connection.
+            if (rs != null) try { rs.close(); } catch (Exception e2) {}
+            if (selectQueryState != null) try { selectQueryState.close(); } catch (Exception e3) {}
+            if (conn != null) try { conn.close(); } catch (Exception e4) {}
+        }
+         
+        // Set buttons when loading the details screen.
+        for (JRadioButton button : detail.statusList) {
+            if (button.getText().equals(status)) {
+                button.setSelected(true);
+            } else {
+                button.setSelected(false);
+            }
+        }
+        
+        // Set window fields.
+        detail.delayField.setText(String.valueOf(delay));
+        detail.assignTitle.setText("Assignment: "+title);
+        
+        // Set window attributes.
+        detail.course = course;
+        detail.title = title;
+        detail.dateTime = dateTime;
+        detail.status = status;
+        detail.delay = delay;
+        
+        // Call method to load any saved notes.
+        detail.loadNotes();
+        detail.setVisible(true);
+    }//GEN-LAST:event_detailsButtonActionPerformed
+
+    // Refresh button pressed.
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        this.loadCourseTable();
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    // File button pressed.
+    private void openDirectoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openDirectoryButtonActionPerformed
+        // Open the directory associated with either the assignment, or the class if no row is selected.
+        if (assignTable.getSelectedRow() != -1) {
+            int row = assignTable.getSelectedRow();
+        
+            String assignName;
+            assignName = model.getValueAt(row, 0).toString();
+            
+            try {
+                Desktop.getDesktop().open(new File(".\\smartEDUFiles\\"+courseName+"\\"+assignName));               
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        } else {
+            try {
+                Desktop.getDesktop().open(new File(".\\smartEDUFiles\\"+courseName));               
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+    }//GEN-LAST:event_openDirectoryButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JTable assignTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton deleteButton;
+    public javax.swing.JButton detailsButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JButton openDirectoryButton;
+    public javax.swing.JButton refreshButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
 }

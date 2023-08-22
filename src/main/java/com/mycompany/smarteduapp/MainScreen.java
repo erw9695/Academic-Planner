@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.smarteduapp;
 import javax.swing.JFrame;
 import java.awt.*;
-import javax.swing.*;
+import java.io.File;
 
 /**
  *
@@ -13,6 +9,8 @@ import javax.swing.*;
  */
 public class MainScreen extends javax.swing.JFrame {
     GraphicsPanel gPanMon,gPanTue,gPanWed,gPanThu,gPanFri,gPanSat,gPanSun;
+    AddClassScreen addClass;
+    DeleteClassScreen deleteClass;
 
     /**
      * Creates new form MainScreen
@@ -21,24 +19,8 @@ public class MainScreen extends javax.swing.JFrame {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         
-        /*JPanel monPan = new JPanel();
-        JPanel tuePan = new JPanel();
-        JPanel wedPan = new JPanel();
-        JPanel thuPan = new JPanel();
-        JPanel friPan = new JPanel();
-        JPanel satPan = new JPanel();
-        JPanel sunPan = new JPanel();*/
-        
         sched.setLayout(new GridLayout(1,7));
         sched.setSize(910, 433);
-        
-        /*sched.add(monPan);
-        sched.add(tuePan);
-        sched.add(wedPan);
-        sched.add(thuPan);
-        sched.add(friPan);
-        sched.add(satPan);
-        sched.add(sunPan);*/
         
         // Create and add graphics panels.
         gPanMon = new GraphicsPanel();
@@ -57,13 +39,8 @@ public class MainScreen extends javax.swing.JFrame {
         sched.add(gPanSat);
         sched.add(gPanSun);
         
-        /*monPan.add(gPanMon);
-        tuePan.add(gPanTue);
-        wedPan.add(gPanWed);
-        thuPan.add(gPanThu);
-        friPan.add(gPanFri);
-        satPan.add(gPanSat);
-        sunPan.add(gPanSun);*/
+        addClass = new AddClassScreen();
+        deleteClass = new DeleteClassScreen();
     }
 
     /**
@@ -309,25 +286,35 @@ public class MainScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Do nothing (current window tab).
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
+    // Open assignment tab.
     private void assignmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignmentButtonActionPerformed
         this.setVisible(false);
         SmartEDUApp.assign.setVisible(true);
     }//GEN-LAST:event_assignmentButtonActionPerformed
 
+    // Open directory with all courses.
     private void fileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonActionPerformed
         // TODO add your handling code here:
+        try {
+            Desktop.getDesktop().open(new File(".\\smartEDUFiles"));               
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }//GEN-LAST:event_fileButtonActionPerformed
 
+    // Open add class window.
     private void addCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseButtonActionPerformed
-        new AddClassScreen().setVisible(true);
+        addClass.setVisible(true);
     }//GEN-LAST:event_addCourseButtonActionPerformed
 
+    // Open delete class window.
     private void deleteCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseButtonActionPerformed
-        new DeleteClassScreen().setVisible(true);
+        deleteClass.setVisible(true);
     }//GEN-LAST:event_deleteCourseButtonActionPerformed
 
     /**

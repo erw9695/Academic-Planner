@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.smarteduapp;
 import javax.swing.JFrame;
 import java.awt.*;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Random;
-import javax.swing.*;
-import javax.swing.table.*;
 import java.util.*;
 
 /**
@@ -29,10 +23,8 @@ public class AssignmentScreen extends javax.swing.JFrame {
         
         tables = new HashMap();
         
-        //assignPanel.setLayout(new BoxLayout(assignPanel,BoxLayout.Y_AXIS));
         assignPanel.setLayout(new GridLayout(10,0));
         
-        // Testing
         // Load from DB.
         Connection conn = null;
         Statement state = null;
@@ -54,46 +46,24 @@ public class AssignmentScreen extends javax.swing.JFrame {
                 int bVal = rs.getInt("bVal");
                 Color courseColor = new Color(rVal,gVal,bVal);
                 
+                // Create course table from saved courses.
                 CourseTable newTable = new CourseTable(courseTitle,courseColor);
                 tables.put(courseTitle,newTable);
                 assignPanel.add(newTable);
             }
         } catch (Exception e) {
-            
+            System.out.println(e.toString());
         } finally {
             if (rs != null) try { rs.close(); } catch (Exception e2) {}
             if (state != null) try { state.close(); } catch (Exception e3) {}
             if (conn != null) try { conn.close(); } catch (Exception e4) {}
         }
         
+        // Create "other" table.
         CourseTable otherTable = new CourseTable("Other",Color.black);
         tables.put("Other",otherTable);
         assignPanel.add(otherTable);
-        
-        // TESTING ONLY - DELETE
-        /*JTable testTab = tables.get("CS-UY 1134").getTable();
-        DefaultTableModel model = (DefaultTableModel) testTab.getModel();
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});
-        model.addRow(new Object[]{"1","2","3","4","5"});*/
-        
+                
     }
 
     /**
@@ -246,30 +216,26 @@ public class AssignmentScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Tab change.
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
         this.setVisible(false);
         SmartEDUApp.main.setVisible(true);
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
+    // Do nothing, current screen.
     private void assignmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignmentButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_assignmentButtonActionPerformed
 
+    // File button pressed.
     private void fileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonActionPerformed
-        // TODO add your handling code here:
+        // Open the folder containing all files.
+        try {
+            Desktop.getDesktop().open(new File(".\\smartEDUFiles"));               
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }//GEN-LAST:event_fileButtonActionPerformed
-
-    /*private void testOnly() {
-        Random rand = new Random();
-        int rVal = rand.nextInt(30,255);
-        int gVal = rand.nextInt(30,255);
-        int bVal = rand.nextInt(30,255);
-        Color panelColor = new Color(rVal,gVal,bVal);
-        JPanel newPanel = new JPanel();
-        newPanel.setBackground(panelColor);
-        newPanel.setSize(970,100);
-        assignPanel.add(newPanel);
-    }*/
     
     /**
      * @param args the command line arguments

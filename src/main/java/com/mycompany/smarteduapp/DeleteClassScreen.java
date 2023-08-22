@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.smarteduapp;
 
 import java.sql.Connection;
@@ -126,11 +122,14 @@ public class DeleteClassScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Confirm button pressed.
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         this.setVisible(false);
         
+        // Get course title.
         String courseToDelete = courseTitleField.getText();
         
+        // Check if monday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanMon.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanMon.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanMon.blocks.get(i);
@@ -140,6 +139,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanMon.repaint();
         }
+        // Check if tuesday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanTue.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanTue.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanTue.blocks.get(i);
@@ -149,6 +149,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanTue.repaint();
         }
+        // Check if wednesday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanWed.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanWed.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanWed.blocks.get(i);
@@ -158,6 +159,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanWed.repaint();
         }
+        // Check if thursday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanThu.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanThu.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanThu.blocks.get(i);
@@ -167,6 +169,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanThu.repaint();
         }
+        // Check if friday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanFri.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanFri.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanFri.blocks.get(i);
@@ -176,6 +179,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanFri.repaint();
         }
+        // Check if saturday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanSat.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanSat.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanSat.blocks.get(i);
@@ -185,6 +189,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanSat.repaint();
         }
+        // Check if sunday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanSun.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanSun.blocks.size() ; i++) {
                 CourseBlock curr = SmartEDUApp.main.gPanSun.blocks.get(i);
@@ -203,18 +208,26 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             conn = DriverManager.getConnection(url,"root","");
             
             String deleteQuery = "delete from schedule where courseTitle = '"+courseToDelete+"'";
+            // Remove all assignments for this course.
+            String deleteAssignQuery = "delete from assignments where course='"+courseToDelete+"'";
                     
             state = conn.createStatement();
             state.executeQuery(deleteQuery);
-        } catch (Exception e) {
+            state.executeQuery(deleteAssignQuery);
             
+        } catch (Exception e) {
+            System.out.println(e.toString());
         } finally {
             if (state != null) try { state.close(); } catch (Exception e2) {}
             if (conn != null) try { conn.close(); } catch (Exception e3) {}
         }
+        
+        courseTitleField.setText("");
     }//GEN-LAST:event_confirmButtonActionPerformed
 
+    // Cancel button pressed.
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        courseTitleField.setText("");
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 

@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.smarteduapp;
 
 import java.util.*;
 import java.awt.Color;
+import java.io.File;
 import java.sql.*;
 
 /**
@@ -266,9 +263,11 @@ public class AddClassScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Confirm button pressed.
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         this.setVisible(false);
         
+        // Ints used to save if the class meets on a certain day in the DB.  1 is true, 0 is false in SQL.
         int monClass,tueClass,wedClass,thuClass,friClass,satClass,sunClass;
         monClass = 0;
         tueClass = 0;
@@ -278,20 +277,25 @@ public class AddClassScreen extends javax.swing.JFrame {
         satClass = 0;
         sunClass = 0;
         
+        // Get user inputs.
         String courseText = this.courseTitleField.getText();
         String locText = this.locationField.getText();
         String startTime = this.startTimeField.getText();
         String endTime = this.endTimeField.getText();
         
+        // Generate a random color for this class.
         Random rand = new Random();
         int rVal = rand.nextInt(30,255);
         int gVal = rand.nextInt(30,255);
         int bVal = rand.nextInt(30,255);
         Color courseColor = new Color(rVal,gVal,bVal);
         
+        // Create a new CourseBlock instance to represent this class.
         CourseBlock newCourse = new CourseBlock(courseText,locText,startTime,endTime,courseColor);
         
+        // Boolean tracks if course was successfully added to a panel.
         boolean courseAdded = false;
+        // Trys to add to monday panel.
         if (this.monRadioButton.isSelected() && !SmartEDUApp.main.gPanMon.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanMon.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanMon.repaint();
@@ -300,6 +304,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         }
+        // Trys to add to tuesday panel.
         if (this.tuesRadioButton.isSelected() && !SmartEDUApp.main.gPanTue.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanTue.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanTue.repaint();
@@ -308,6 +313,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         }
+        // Trys to add to wednesday panel.
         if (this.wedRadioButton.isSelected() && !SmartEDUApp.main.gPanWed.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanWed.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanWed.repaint();
@@ -316,6 +322,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         }
+        // Trys to add to thursday panel.
         if (this.thuRadioButton.isSelected() && !SmartEDUApp.main.gPanThu.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanThu.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanThu.repaint();
@@ -324,6 +331,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         } 
+        // Trys to add to friday panel.
         if (this.friRadioButton.isSelected() && !SmartEDUApp.main.gPanFri.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanFri.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanFri.repaint();
@@ -332,6 +340,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         }
+        // Trys to add to saturday panel.
         if (this.satRadioButton.isSelected() && !SmartEDUApp.main.gPanSat.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanSat.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanSat.repaint();
@@ -340,6 +349,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         }
+        // Trys to add to sunday panel.
         if (this.sunRadioButton.isSelected() && !SmartEDUApp.main.gPanSun.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanSun.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanSun.repaint();
@@ -362,15 +372,47 @@ public class AddClassScreen extends javax.swing.JFrame {
                 state = conn.createStatement();
                 state.executeQuery(insertQuery);
             } catch (Exception e) {
-
+                System.out.println(e.toString());
             } finally {
                 if (state != null) try { state.close(); } catch (Exception e2) {}
                 if (conn != null) try { conn.close(); } catch (Exception e3) {}
             }
         }
+        
+        // Create a course directory.
+        try {
+            File file = new File(".\\smartEDUFiles\\"+courseText);
+            if (!file.exists()) {
+                if (file.mkdir()) {
+                    System.out.println("Class directory created.");
+                } else {
+                    System.out.println("Class directory creation failure.");
+                }
+            } else {
+                System.out.println("Class directory ALREADY exists.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        
+        // Reset fields.
+        courseTitleField.setText("");
+        endTimeField.setText("");
+        locationField.setText("");
+        startTimeField.setText("HH:MM");
+        endTimeField.setText("HH:MM");
+        // ADD HANDLING TO RESET RADIO BUTTONS HERE LATER. - TODO!
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // Reset fields.
+        courseTitleField.setText("");
+        endTimeField.setText("");
+        locationField.setText("");
+        startTimeField.setText("HH:MM");
+        endTimeField.setText("HH:MM");
+        // ADD HANDLING TO RESET RADIO BUTTONS HERE LATER. - TODO!
+        
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 

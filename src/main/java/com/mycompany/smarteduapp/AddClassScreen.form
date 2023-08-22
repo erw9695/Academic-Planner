@@ -68,7 +68,7 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="monRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="tuesRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="tueRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -122,7 +122,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="monRadioButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tuesRadioButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="tueRadioButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="wedRadioButton" min="-2" max="-2" attributes="0"/>
@@ -302,7 +302,7 @@
             <Property name="text" type="java.lang.String" value="Days"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="tuesRadioButton">
+        <Component class="javax.swing.JRadioButton" name="tueRadioButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="f" green="c4" red="f1" type="rgb"/>
@@ -316,7 +316,7 @@
             <Property name="text" type="java.lang.String" value="Tuesday"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tuesRadioButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tueRadioButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="wedRadioButton">

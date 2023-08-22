@@ -3,18 +3,29 @@ package com.mycompany.smarteduapp;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
  * @author ethan
  */
 public class DeleteClassScreen extends javax.swing.JFrame {
+    ArrayList<GraphicsPanel> classPanels;
 
     /**
      * Creates new form DeleteClassScreen
      */
     public DeleteClassScreen() {
         initComponents();
+        
+        classPanels = new ArrayList();
+        classPanels.add(SmartEDUApp.main.gPanMon);
+        classPanels.add(SmartEDUApp.main.gPanTue);
+        classPanels.add(SmartEDUApp.main.gPanWed);
+        classPanels.add(SmartEDUApp.main.gPanThu);
+        classPanels.add(SmartEDUApp.main.gPanFri);
+        classPanels.add(SmartEDUApp.main.gPanSat);
+        classPanels.add(SmartEDUApp.main.gPanSun);
     }
 
     /**
@@ -129,6 +140,20 @@ public class DeleteClassScreen extends javax.swing.JFrame {
         // Get course title.
         String courseToDelete = courseTitleField.getText();
         
+        // Check if graphics panel contains the course, and if it does delete it.
+        for (GraphicsPanel panel : classPanels) {
+            if (panel.courses.contains(courseToDelete)) {
+            for (int i = 0; i < panel.blocks.size() ; i++) {
+                CourseBlock curr = panel.blocks.get(i);
+                if (curr.courseTitle.equals(courseToDelete)) {
+                    panel.blocks.remove(i);
+                }
+            }
+            panel.repaint();
+        }
+        }
+        
+        /*
         // Check if monday graphics panel contains the course, and if it does delete it.
         if (SmartEDUApp.main.gPanMon.courses.contains(courseToDelete)) {
             for (int i = 0; i < SmartEDUApp.main.gPanMon.blocks.size() ; i++) {
@@ -199,6 +224,7 @@ public class DeleteClassScreen extends javax.swing.JFrame {
             }
             SmartEDUApp.main.gPanSun.repaint();
         }
+        */
         
         // Delete from DB.
         Connection conn = null;

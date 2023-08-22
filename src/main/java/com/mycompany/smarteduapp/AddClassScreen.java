@@ -4,18 +4,42 @@ import java.util.*;
 import java.awt.Color;
 import java.io.File;
 import java.sql.*;
+import javax.swing.JRadioButton;
 
 /**
  *
  * @author ethan
  */
 public class AddClassScreen extends javax.swing.JFrame {
+    HashMap<String,JRadioButton> dayButton;
+    HashMap<String,GraphicsPanel> dayPanel;
+    HashMap<String,Integer> dayInt;
 
     /**
      * Creates new form AddClassScreen
      */
     public AddClassScreen() {
         initComponents();
+        
+        dayButton = new HashMap();
+        dayButton.put("MON",this.monRadioButton);
+        dayButton.put("TUE",this.tueRadioButton);
+        dayButton.put("WED",this.wedRadioButton);
+        dayButton.put("THU",this.thuRadioButton);
+        dayButton.put("FRI",this.friRadioButton);
+        dayButton.put("SAT",this.satRadioButton);
+        dayButton.put("SUN",this.sunRadioButton);
+        
+        dayPanel = new HashMap();
+        dayPanel.put("MON",SmartEDUApp.main.gPanMon);
+        dayPanel.put("TUE",SmartEDUApp.main.gPanTue);
+        dayPanel.put("WED",SmartEDUApp.main.gPanWed);
+        dayPanel.put("THU",SmartEDUApp.main.gPanThu);
+        dayPanel.put("FRI",SmartEDUApp.main.gPanFri);
+        dayPanel.put("SAT",SmartEDUApp.main.gPanSat);
+        dayPanel.put("SUN",SmartEDUApp.main.gPanSun);
+        
+        dayInt = new HashMap();
     }
 
     /**
@@ -41,7 +65,7 @@ public class AddClassScreen extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
         monRadioButton = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
-        tuesRadioButton = new javax.swing.JRadioButton();
+        tueRadioButton = new javax.swing.JRadioButton();
         wedRadioButton = new javax.swing.JRadioButton();
         thuRadioButton = new javax.swing.JRadioButton();
         friRadioButton = new javax.swing.JRadioButton();
@@ -108,13 +132,13 @@ public class AddClassScreen extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Days");
 
-        tuesRadioButton.setBackground(new java.awt.Color(241, 196, 15));
-        tuesRadioButton.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 0, 18)); // NOI18N
-        tuesRadioButton.setForeground(new java.awt.Color(255, 255, 255));
-        tuesRadioButton.setText("Tuesday");
-        tuesRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        tueRadioButton.setBackground(new java.awt.Color(241, 196, 15));
+        tueRadioButton.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 0, 18)); // NOI18N
+        tueRadioButton.setForeground(new java.awt.Color(255, 255, 255));
+        tueRadioButton.setText("Tuesday");
+        tueRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tuesRadioButtonActionPerformed(evt);
+                tueRadioButtonActionPerformed(evt);
             }
         });
 
@@ -177,7 +201,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                             .addGroup(thurRadioButtonLayout.createSequentialGroup()
                                 .addGroup(thurRadioButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(monRadioButton)
-                                    .addComponent(tuesRadioButton))
+                                    .addComponent(tueRadioButton))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(thurRadioButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(wedRadioButton)
@@ -217,7 +241,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                     .addGroup(thurRadioButtonLayout.createSequentialGroup()
                         .addComponent(monRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tuesRadioButton))
+                        .addComponent(tueRadioButton))
                     .addGroup(thurRadioButtonLayout.createSequentialGroup()
                         .addComponent(wedRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -268,14 +292,14 @@ public class AddClassScreen extends javax.swing.JFrame {
         this.setVisible(false);
         
         // Ints used to save if the class meets on a certain day in the DB.  1 is true, 0 is false in SQL.
-        int monClass,tueClass,wedClass,thuClass,friClass,satClass,sunClass;
+        /*int monClass,tueClass,wedClass,thuClass,friClass,satClass,sunClass;
         monClass = 0;
         tueClass = 0;
         wedClass = 0;
         thuClass = 0;
         friClass = 0;
         satClass = 0;
-        sunClass = 0;
+        sunClass = 0;*/
         
         // Get user inputs.
         String courseText = this.courseTitleField.getText();
@@ -295,6 +319,23 @@ public class AddClassScreen extends javax.swing.JFrame {
         
         // Boolean tracks if course was successfully added to a panel.
         boolean courseAdded = false;
+        
+        
+        // Trys to add to panel.
+        for (String day : dayButton.keySet()) {
+            JRadioButton currButton = dayButton.get(day);
+            GraphicsPanel currPanel = dayPanel.get(day);
+            if (currButton.isSelected() && !currPanel.conflictExists(newCourse)) {
+                currPanel.addCourse(newCourse,courseText);
+                currPanel.repaint();
+                dayInt.put(day,1);
+                if (!courseAdded) {
+                    courseAdded = true;
+                }
+            }
+        }
+        
+        /*
         // Trys to add to monday panel.
         if (this.monRadioButton.isSelected() && !SmartEDUApp.main.gPanMon.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanMon.addCourse(newCourse,courseText);
@@ -305,7 +346,7 @@ public class AddClassScreen extends javax.swing.JFrame {
             }
         }
         // Trys to add to tuesday panel.
-        if (this.tuesRadioButton.isSelected() && !SmartEDUApp.main.gPanTue.conflictExists(newCourse)) {
+        if (this.tueRadioButton.isSelected() && !SmartEDUApp.main.gPanTue.conflictExists(newCourse)) {
             SmartEDUApp.main.gPanTue.addCourse(newCourse,courseText);
             SmartEDUApp.main.gPanTue.repaint();
             tueClass = 1;
@@ -358,6 +399,7 @@ public class AddClassScreen extends javax.swing.JFrame {
                 courseAdded = true;
             }
         }
+        */
         
         // Save to DB.
         if (courseAdded) {
@@ -366,6 +408,15 @@ public class AddClassScreen extends javax.swing.JFrame {
             try {
                 String url = "jdbc:mariadb://localhost:3307/academicdb";
                 conn = DriverManager.getConnection(url,"root","");
+                
+                int monClass,tueClass,wedClass,thuClass,friClass,satClass,sunClass;
+                monClass = dayInt.get("MON");
+                tueClass = dayInt.get("TUE");
+                wedClass = dayInt.get("WED");
+                thuClass = dayInt.get("THU");
+                friClass = dayInt.get("FRI");
+                satClass = dayInt.get("SAT");
+                sunClass = dayInt.get("SUN");
 
                 String insertQuery = "insert into schedule values ('"+courseText+"','"+locText+"',"+monClass+","+tueClass+","+wedClass+","+thuClass+","+friClass+","+satClass+","+sunClass+",'"+startTime+"','"+endTime+"',"+rVal+","+gVal+","+bVal+")";
 
@@ -416,9 +467,9 @@ public class AddClassScreen extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void tuesRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tuesRadioButtonActionPerformed
+    private void tueRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tueRadioButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tuesRadioButtonActionPerformed
+    }//GEN-LAST:event_tueRadioButtonActionPerformed
 
     private void thuRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thuRadioButtonActionPerformed
         // TODO add your handling code here:
@@ -482,7 +533,7 @@ public class AddClassScreen extends javax.swing.JFrame {
     private javax.swing.JRadioButton sunRadioButton;
     private javax.swing.JRadioButton thuRadioButton;
     private javax.swing.JPanel thurRadioButton;
-    private javax.swing.JRadioButton tuesRadioButton;
+    private javax.swing.JRadioButton tueRadioButton;
     private javax.swing.JRadioButton wedRadioButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.*;
 
 /**
  *
@@ -49,15 +50,33 @@ public class SmartEDUApp {
             rs = state.executeQuery(queryCourses);
             
             while (rs.next()) {
+                HashMap<String,Boolean> dayBool = new HashMap();
+                HashMap<String,GraphicsPanel> dayPanel = new HashMap();
+                        
                 String courseTitle = rs.getString("courseTitle");
                 String location = rs.getString("location");
-                Boolean monClass = rs.getBoolean("monClass");
+                dayBool.put("MON",rs.getBoolean("monClass"));
+                dayBool.put("TUE",rs.getBoolean("tueClass"));
+                dayBool.put("WED",rs.getBoolean("wedClass"));
+                dayBool.put("THU",rs.getBoolean("thuClass"));
+                dayBool.put("FRI",rs.getBoolean("friClass"));
+                dayBool.put("SAT",rs.getBoolean("satClass"));
+                dayBool.put("SUN",rs.getBoolean("sunClass"));
+                
+                dayPanel.put("MON",SmartEDUApp.main.gPanMon);
+                dayPanel.put("TUE",SmartEDUApp.main.gPanTue);
+                dayPanel.put("WED",SmartEDUApp.main.gPanWed);
+                dayPanel.put("THU",SmartEDUApp.main.gPanThu);
+                dayPanel.put("FRI",SmartEDUApp.main.gPanFri);
+                dayPanel.put("SAT",SmartEDUApp.main.gPanSat);
+                dayPanel.put("SUN",SmartEDUApp.main.gPanSun);
+                /*Boolean monClass = rs.getBoolean("monClass");
                 Boolean tueClass = rs.getBoolean("tueClass");
                 Boolean wedClass = rs.getBoolean("wedClass");
                 Boolean thuClass = rs.getBoolean("thuClass");
                 Boolean friClass = rs.getBoolean("friClass");
                 Boolean satClass = rs.getBoolean("satClass");
-                Boolean sunClass = rs.getBoolean("sunClass");
+                Boolean sunClass = rs.getBoolean("sunClass");*/
                 String startTime = rs.getString("startTime");
                 String endTime = rs.getString("endTime");
                 int rVal = rs.getInt("rVal");
@@ -65,6 +84,15 @@ public class SmartEDUApp {
                 int bVal = rs.getInt("bVal");
                 Color courseColor = new Color(rVal,gVal,bVal);
                 
+                for (String day : dayBool.keySet()) {
+                    GraphicsPanel panel = dayPanel.get(day);
+                    if (dayBool.get(day)) {
+                        panel.addCourse(new CourseBlock(courseTitle,location,startTime,endTime,courseColor),courseTitle);
+                        panel.repaint();
+                    }
+                }
+                
+                /*
                 if (monClass) {
                     SmartEDUApp.main.gPanMon.addCourse(new CourseBlock(courseTitle,location,startTime,endTime,courseColor),courseTitle);
                     SmartEDUApp.main.gPanMon.repaint();
@@ -93,6 +121,7 @@ public class SmartEDUApp {
                     SmartEDUApp.main.gPanSun.addCourse(new CourseBlock(courseTitle,location,startTime,endTime,courseColor),courseTitle);
                     SmartEDUApp.main.gPanSun.repaint();
                 }
+                */
             }
         } catch (Exception e) {
             System.out.println(e.toString());

@@ -2,7 +2,7 @@
 
 This is a simple tool that helps students to manage their courses in one place.  There are several features including a scheduling tool, assignment manager, and a file manager. 
 
-# Usage
+# Usage 
 
 ## Scheduling Tool
 
